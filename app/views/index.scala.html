@@ -1,0 +1,23 @@
+@(status:Int)(keyword:String)
+
+@main("Welcome to Play") {
+    <!--<script type='text/javascript' src='@routes.Assets.at("javascripts/index.js")'></script>-->
+
+    <ul id="Links"></ul>
+    @if(keyword==null){
+
+    }else {
+        <li>@keyword</li>
+    }
+
+    <form method="POST" action="@routes.PersonController.addLinks()">
+        <input type="text" name="url"/>
+        <button>Convert to unique short  URL</button>
+        @if(status==200){
+
+        }else {
+            <label>Plz input right url address like "https://www.baidu.com"</label>
+        }
+
+    </form>
+}
