@@ -32,8 +32,18 @@ public class JPALinksRepository implements LinksRepository{
         return supplyAsync(() -> wrap(em -> list(em)), executionContext);
     }
 
+    @Override
+    public CompletionStage<links> update(links links){
+        return supplyAsync(()->wrap(em->merge(em,links)),executionContext);
+    }
+
     private <T> T wrap(Function<EntityManager, T> function) {
         return jpaApi.withTransaction(function);
+    }
+
+    private links merge(EntityManager em, links links){
+        em.merge(links);
+        return links;
     }
 
     private links insert(EntityManager em, links links) {

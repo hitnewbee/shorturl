@@ -1,0 +1,16 @@
+@(links:List[links])
+
+@main("list of all  links") {
+
+    <label> Present List Of All Links Below:</label>
+    </form>
+    <table>
+        @for(link <- links){
+            <tr>
+                <td>@link.getId()</td>
+                <td>@link.getUrl()</td>
+                <td>@link.getKeyword()</td>
+        }
+
+    </table>
+}

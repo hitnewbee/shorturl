@@ -3,6 +3,7 @@ package models;
 import javax.persistence.*;
 
 @Entity
+@Table(uniqueConstraints={ @UniqueConstraint(columnNames={"keyword"})})
 public class links {
 
     @Id

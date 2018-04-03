@@ -10,4 +10,6 @@ public interface LinksRepository {
     CompletionStage<links> add(links links);
 
     CompletionStage<Stream<links>> list();
+
+    CompletionStage<links> update(links links);
 }
