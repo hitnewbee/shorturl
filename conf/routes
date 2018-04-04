@@ -3,12 +3,10 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.PersonController.index()
-POST    /person                     controllers.PersonController.addPerson()
-GET     /persons                    controllers.PersonController.getPersons()
-GET     /listlinks                      controllers.PersonController.getLinks()
-POST    /links                      controllers.PersonController.addLinks()
-GET     /transfer/:url              controllers.PersonController.transfer(url:String)
+GET     /                           controllers.LinksController.index()
+GET     /listlinks                  controllers.LinksController.getLinks()
+POST    /links                      controllers.LinksController.addLinks()
+GET     /transfer/:url              controllers.LinksController.transfer(url:String)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

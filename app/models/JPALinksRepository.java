@@ -46,17 +46,17 @@ public class JPALinksRepository implements LinksRepository{
         return jpaApi.withTransaction(function);
     }
 
-    private links merge(EntityManager em, links links){
+    private synchronized links merge(EntityManager em, links links){
         em.merge(links);
         return links;
     }
 
-    private links insert(EntityManager em, links links) {
+    private synchronized links insert(EntityManager em, links links) {
         em.persist(links);
         return links;
     }
 
-    private links remove(EntityManager em,links links){
+    private synchronized links remove(EntityManager em,links links){
         em.remove(links);
         return links;
     }
