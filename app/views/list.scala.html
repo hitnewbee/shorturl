@@ -5,12 +5,24 @@
     <label> Present List Of All Links Below:</label>
     </form>
     <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>OriginURL</th>
+                <th>ShortURL</th>
+                <th>ClickCount</th>
+                <th>AddTime</th>
+            </tr>
+        </thead>
+        <tbody>
         @for(link <- links){
             <tr>
                 <td>@link.getId()</td>
                 <td>@link.getUrl()</td>
                 <td>@link.getKeyword()</td>
+                <td>@link.getClickcount()</td>
+                <td>@link.getInsert_at()</td>
         }
-
+        </tbody>
     </table>
 }

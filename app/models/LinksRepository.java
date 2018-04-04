@@ -12,4 +12,6 @@ public interface LinksRepository {
     CompletionStage<Stream<links>> list();
 
     CompletionStage<links> update(links links);
+
+    CompletionStage<links> delete (links links);
 }

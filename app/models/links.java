@@ -7,7 +7,8 @@ import javax.persistence.*;
 public class links {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @SequenceGenerator(name = "fordemo",sequenceName = "t_links_seq",initialValue = 100,allocationSize = 10)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator = "fordemo")
     public long id;
 
     public String url;
@@ -16,9 +17,17 @@ public class links {
 
     public String type;
 
+    public long clickcount;
+
     public String insert_at;
 
-    public String updated_at;
+    public long getClickcount() {
+        return clickcount;
+    }
+
+    public void setClickcount(long clickcount) {
+        this.clickcount = clickcount;
+    }
 
     public long getId() {
         return id;
@@ -60,11 +69,4 @@ public class links {
         this.insert_at = insert_at;
     }
 
-    public String getUpdated_at() {
-        return updated_at;
-    }
-
-    public void setUpdated_at(String updated_at) {
-        this.updated_at = updated_at;
-    }
 }

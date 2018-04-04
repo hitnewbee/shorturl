@@ -37,6 +37,11 @@ public class JPALinksRepository implements LinksRepository{
         return supplyAsync(()->wrap(em->merge(em,links)),executionContext);
     }
 
+    @Override
+    public CompletionStage<links> delete (links links){
+        return supplyAsync(()->wrap(em->remove(em,links)),executionContext);
+    }
+
     private <T> T wrap(Function<EntityManager, T> function) {
         return jpaApi.withTransaction(function);
     }
@@ -48,6 +53,11 @@ public class JPALinksRepository implements LinksRepository{
 
     private links insert(EntityManager em, links links) {
         em.persist(links);
+        return links;
+    }
+
+    private links remove(EntityManager em,links links){
+        em.remove(links);
         return links;
     }
 

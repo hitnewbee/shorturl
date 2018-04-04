@@ -1,4 +1,4 @@
-@(status:Int)(keyword:String)
+@(tip:String)(keyword:String)
 
 @main("Welcome to Play") {
     <!--<script type='text/javascript' src='@routes.Assets.at("javascripts/index.js")'></script>-->
@@ -11,14 +11,34 @@
     }
 
     <form method="POST" action="@routes.PersonController.addLinks()">
-        <input type="text" name="url"/>
-        <button>Convert to unique short  URL</button>
-        @if(status==200){
+        <table>
+            <tr>
+                <td>
+                     <label>OriginURL:</label>
+                </td>
+                <td>
+                     <input type="text" name="url"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                     <label>If you want to DIY your short URL(can be empty):</label>
+                </td>
+                <td>
+                     <input type="text" name="keyword"/>
+                </td>
+            </tr>
 
-        }else {
-            <label>Plz input right url address like "https://www.baidu.com"</label>
-        }
+            @if(tip!=null){
+                <tr>
+                    <label>@tip</label>
+                </tr>
+            }
+        </table>
+        <button>Convert to unique short  URL</button>
+
 
     </form>
+
 
 }
