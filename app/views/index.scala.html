@@ -1,13 +1,17 @@
 @(tip:String)(keyword:String)
 
 @main("Welcome to Play") {
-    <!--<script type='text/javascript' src='@routes.Assets.at("javascripts/index.js")'></script>-->
-
+    <!--<script type='text/javascript' src='@routes.Assets.at("javascripts/index.js")'></script>
+    <script type="text/javascript">
+        function copy() {
+          $('#text1').val().execCommand("Copy");
+            }
+    </script>-->
     <ul id="Links"></ul>
     @if(keyword==null){
 
     }else {
-        <li>@keyword</li>
+        <label id="text1">@keyword</label>
     }
 
     <form method="POST" action="@routes.LinksController.addLinks()">
@@ -39,6 +43,7 @@
 
 
     </form>
+
 
 
 }

@@ -83,9 +83,8 @@ public class LinksController extends Controller {
                         if (linksList.size()>0){
                             return CompletableFuture.supplyAsync(()->ok(views.html.index.render("this URL has been owned ,plz try another",null)));
                         }else{
-                            return  linksRepository.add(links1).thenApplyAsync(list->ok(views.html.index.render("create short url success!",links1.getKeyword())));
+                            return  linksRepository.add(links1).thenApplyAsync(list->ok(views.html.index.render("create short url success!You must paste URL to address bar and run youself to test function","http://localhost:9000/transfer/"+links1.getKeyword())));
                         }
-
                     });
                 }else{
                     return CompletableFuture.supplyAsync(()->ok(views.html.index.render("your short url not match rules",null)));
