@@ -51,7 +51,7 @@ GET     /transfer/:url              controllers.LinksController.transfer
   "clickcount": 0,  <br/>
   "insert_at": "2018-04-08-16-53-47"  <br/>
 }  <br/>
-access: http://localhost:9000/transfer/123456 then you can redirect to www.baidu.com
+access: http://localhost:9000/transfer/123456 then you can redirect to www.baidu.com   <br/>
 GET     /listrest                   controllers.LinksController.getLinksRest()         查看所有url及其点击数  <br/>
 response bodyexp：  <br/>
 [  <br/>
