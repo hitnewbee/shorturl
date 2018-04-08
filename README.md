@@ -41,7 +41,7 @@
 	  </tr>
 	</table>
 </div>
-* 可通过返回体中keyword使用跳转重定向api访问
+* 可通过返回体中keyword使用跳转重定向api访问  <br/>
 GET     /transfer/:url              controllers.LinksController.transfer(url:String)   跳转重定向  <br/>
 例：  <br/>
 {  <br/>
