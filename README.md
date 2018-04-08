@@ -12,6 +12,7 @@
 * 5.完成测试代码
 * 技术：play framework、JPA、函数式编程、同步锁（数据库增删改操作）、JAVA8流处理、scala.html、play filter（请求过滤用于日志）
 * 
+* 运行TestSuite.java执行测试代码
 * protocol:http
 * address:localhost
 * port:9000
