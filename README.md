@@ -77,11 +77,13 @@ request bodyexp：  <br/>
 {  <br/>
 	"url":"http://www.baidu.com",  <br/>
 	"keyword":"123456"  <br/>
-}自定义短连接  <br/>
+}  <br/>
+自定义短连接  <br/>
 or:  <br/>
 {  <br/>
 	"url":"http://www.baidu.com",  <br/>
-}系统生成短连接  <br/>
+}  <br/>
+系统生成短连接  <br/>
 
 response bodyexp：  <br/>
 {  <br/>
