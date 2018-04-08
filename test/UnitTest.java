@@ -28,9 +28,7 @@ import static play.test.Helpers.contentAsString;
 import static play.test.Helpers.invokeWithContext;
 
 /**
- * Simple (JUnit) tests that can call all parts of a play app.
- * <p>
- * https://www.playframework.com/documentation/latest/JavaTest
+ *
  */
 public class UnitTest {
 
@@ -52,38 +50,6 @@ public class UnitTest {
         assertThat(contentAsString(html)).contains("links");
     }
 
-    @Test
-    public void checkAddPerson() {
-        // Easier to mock out the form factory inputs here
-        MessagesApi messagesApi = mock(MessagesApi.class);
-        Validator validator = mock(Validator.class);
-        FormFactory formFactory = new FormFactory(messagesApi, new Formatters(messagesApi), validator);
 
-        // Don't need to be this involved in setting up the mock, but for demo it works:
-        LinksRepository repository = mock(LinksRepository.class);
-        links links = new links();
-        links.url = "http://www.baidu.com";
-        links.keyword = "123456";
-        when(repository.add(any())).thenReturn(supplyAsync(() -> links));
-
-        // Set up the request builder to reflect input
-        final Http.RequestBuilder requestBuilder = new Http.RequestBuilder().method("post").bodyJson(Json.toJson(links));
-
-        // Add in an Http.Context here using invokeWithContext:
-        final CompletionStage<Result> stage = invokeWithContext(requestBuilder, () -> {
-            HttpExecutionContext ec = new HttpExecutionContext(ForkJoinPool.commonPool());
-
-            // Create controller and call method under test:
-            final LinksController controller = new LinksController(formFactory, ec, repository);
-            return controller.addLinks();
-        });
-
-        // Test the completed result
-        await().atMost(2, SECONDS).until(() ->
-            assertThat(stage.toCompletableFuture()).isCompletedWithValueMatching(result ->
-                result.status() == SEE_OTHER, "Should redirect after operation"
-            )
-        );
-    }
 
 }
