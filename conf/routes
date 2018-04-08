@@ -5,7 +5,9 @@
 # Home page
 GET     /                           controllers.LinksController.index()
 GET     /listlinks                  controllers.LinksController.getLinks()
+GET     /listrest                   controllers.LinksController.getLinksRest()
 POST    /links                      controllers.LinksController.addLinks()
+POST    /linksRest                  controllers.LinksController.addLinksRest()
 GET     /transfer/:url              controllers.LinksController.transfer(url:String)
 
 # Map static resources from the /public folder to the /assets URL path

@@ -1,11 +1,15 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import models.LinksRepository;
 import models.links;
 import play.data.FormFactory;
+import play.libs.Json;
 import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.Controller;
+import play.mvc.Http;
 import play.mvc.Result;
+import play.mvc.Results;
 
 import javax.inject.Inject;
 import java.text.SimpleDateFormat;
@@ -14,6 +18,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import static play.mvc.Http.MimeTypes.JSON;
 
 
 /**
@@ -43,16 +49,30 @@ public class LinksController extends Controller {
     }
 
 
-    //todo httpprotocol
+
     public CompletionStage<Result> addLinks(){
         links links = formFactory.form(links.class).bindFromRequest().get();
+        return addLogic(links,false);
+    }
+
+    public CompletionStage<Result> addLinksRest(){
+        JsonNode jsonNode=request().body().asJson();
+        links links=new links();
+        links.setUrl(jsonNode.get("url").asText());
+        if(jsonNode.has("keyword")){
+            links.setKeyword(jsonNode.get("keyword").asText());
+        }
+        return addLogic(links,true);
+    }
+
+    public CompletionStage<Result> addLogic(links links,boolean ifrest){
         return CompletableFuture.supplyAsync(()->{
             Date date = new Date(System.currentTimeMillis());
             links.setInsert_at(formatter.format(date));
             return links;
         }).thenComposeAsync(links1 -> {
             //systemtype
-            if (links1.getKeyword().equals("")||links1.getKeyword()==null){
+            if (null==links1.getKeyword()||links1.getKeyword().equals("")){
                 links1.setType("system");
                 return linksRepository.add(links1).thenComposeAsync(x->{
                     return linksRepository.list();
@@ -73,30 +93,44 @@ public class LinksController extends Controller {
                     }
                     links.setKeyword(comp);
                     linksRepository.update(links);
-                    return ok(views.html.index.render("create short url success!",links.getKeyword()));
+                    return ifrest? Results.status(Http.Status.OK, Json.toJson(links)).as(JSON):ok(views.html.index.render("create short url success!",links.getKeyword()));
                 },ec.current());
             }else{
+                //正则匹配
                 if (pattern.matcher(links1.getKeyword()).matches()){
                     links1.setType("custom");
                     return linksRepository.list().thenComposeAsync(linksStream -> {
                         java.util.List<links> linksList=linksStream.filter(x->x.getKeyword().equals(links1.getKeyword())).collect(Collectors.toList());
                         if (linksList.size()>0){
-                            return CompletableFuture.supplyAsync(()->ok(views.html.index.render("this URL has been owned ,plz try another",null)));
+                            String tip="this URL has been owned ,plz try another";
+                            String message=String.format("{\"message\":%s}",tip);
+                            return CompletableFuture.supplyAsync(()->ifrest?Results.status(Http.Status.BAD_REQUEST,message ).as(JSON):ok(views.html.index.render(tip,null)));
                         }else{
-                            return  linksRepository.add(links1).thenApplyAsync(list->ok(views.html.index.render("create short url success!You must paste URL to address bar and run youself to test function","http://localhost:9000/transfer/"+links1.getKeyword())));
+                            return  linksRepository.add(links1).thenApplyAsync(list->ifrest?Results.status(Http.Status.OK, Json.toJson(links)).as(JSON):ok(views.html.index.render("create short url success!You must paste URL to address bar and run youself to test function","http://localhost:9000/transfer/"+links1.getKeyword())));
                         }
                     });
                 }else{
-                    return CompletableFuture.supplyAsync(()->ok(views.html.index.render("your short url not match rules",null)));
+                    String tip="your short url not match rules";
+                    String message=String.format("{\"message\":%s}",tip);
+                    return CompletableFuture.supplyAsync(()->ifrest?Results.status(Http.Status.BAD_REQUEST, message).as(JSON):ok(views.html.index.render(tip,null)));
                 }
             }
         });
     }
 
     public CompletionStage<Result> getLinks(){
+        return getListLogic(false);
+    }
+
+    public CompletionStage<Result> getLinksRest(){
+        return getListLogic(true);
+    }
+
+    public CompletionStage<Result> getListLogic(boolean ifrest){
         return linksRepository.list().thenApplyAsync(linksStream -> {
-            return ok(views.html.list.render(linksStream.collect(Collectors.toList())));
-        },ec.current());
+            List<links> list =linksStream.collect(Collectors.toList());
+            return ifrest?Results.status(Http.Status.OK,Json.toJson(list) ).as(JSON):ok(views.html.list.render(list));
+            },ec.current());
     }
 
     public CompletionStage<Result> transfer(String url){
