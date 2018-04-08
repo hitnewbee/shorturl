@@ -9,6 +9,7 @@
 * 2.访问短链，跳转长链
 * 3.访问计数，链接列表
 * 4.自定义短链
+* 5.完成测试代码
 * 技术：play framework、JPA、函数式编程、同步锁（数据库增删改操作）、JAVA8流处理、scala.html、play filter（请求过滤用于日志）
 * 通过如下restapi对系统进行访问，可用postman客户端，访问数据格式JSON
 * routelist：  <br/>
