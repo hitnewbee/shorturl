@@ -11,7 +11,12 @@
 * 4.自定义短链
 * 5.完成测试代码
 * 技术：play framework、JPA、函数式编程、同步锁（数据库增删改操作）、JAVA8流处理、scala.html、play filter（请求过滤用于日志）
-* 通过如下restapi对系统进行访问，可用postman客户端，访问数据格式JSON
+* 
+* protocol:http
+* address:localhost
+* port:9000
+* 通过http://localhost:9000/访问ui界面，通过页面操作
+* 也可通过如下restapi对系统进行访问，可用postman客户端，访问数据格式JSON，例如通过GET http://localhost:9000/listrest返回连接列表
 * routelist：  <br/>
 <div>
         <table border="0">
